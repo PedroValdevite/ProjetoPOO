@@ -9,5 +9,6 @@ package Restaurante;
  * @author pedro
  */
 public class teste {
-    
+    private int s;
+    private int e;
 }
