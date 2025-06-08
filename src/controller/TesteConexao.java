@@ -1,4 +1,8 @@
-package conexao;
+package controller;
+
+
+
+import controller.Conexao;
 
 public class TesteConexao {
     public static void main(String[] args) {
