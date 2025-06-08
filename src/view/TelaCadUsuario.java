@@ -4,6 +4,9 @@
  */
 package view;
 
+import controller.LoginController;
+import controller.UsuarioController;
+
 /**
  *
  * @author jairh
@@ -134,6 +137,17 @@ public class TelaCadUsuario extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String login = jTextField2.getText();
+        String senha = jTextField3.getText();
+        String senha = jTextField3.getText();
+        String senha = jTextField4.getText();
+        
+        UsuarioController controller = new UsuarioController();
+        
+        if(controller.salvarUsuario(, senha)){
+        TelaMenuPrincipal menu = new TelaMenuPrincipal();
+        menu.setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

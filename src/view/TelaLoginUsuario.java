@@ -4,6 +4,8 @@
  */
 package view;
 
+import controller.LoginController;
+
 /**
  *
  * @author jairh
@@ -122,8 +124,13 @@ public class TelaLoginUsuario extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(//LoginController.realizarlogin() == true
-                1==1){
+        
+        String login = jTextField2.getText();
+        String senha = jTextField3.getText();
+        
+        LoginController controller = new LoginController();
+        
+        if(controller.realizarLogin(login, senha)){
         TelaMenuPrincipal menu = new TelaMenuPrincipal();
         menu.setVisible(true);
         }

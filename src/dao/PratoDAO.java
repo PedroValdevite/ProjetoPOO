@@ -27,23 +27,20 @@ public class PratoDAO {
         }
     }
 
-    public List<Prato> buscarTodos() throws SQLException {
-        String sql = "SELECT * FROM pratos";
-        List<Prato> lista = new ArrayList<>();
-        try (Connection c = Conexao.conectar();
-             Statement s = c.createStatement();
-             ResultSet rs = s.executeQuery(sql)) {
-            while (rs.next()) {
-                Prato p = new Prato();
-                p.setId(rs.getInt("id"));
-                p.setNome(rs.getString("nome"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setPreco(rs.getBigDecimal("preco"));
-                lista.add(p);
-            }
+public List<Prato> buscarTodos() throws SQLException {
+    String sql = "SELECT id FROM pratos";
+    List<Prato> lista = new ArrayList<>();
+    try (Connection c = Conexao.conectar();
+         Statement s = c.createStatement();
+         ResultSet rs = s.executeQuery(sql)) {
+        while (rs.next()) {
+            Prato p = new Prato();
+            p.setId(rs.getInt("id")); // Apenas o ID será setado
+            lista.add(p);
         }
-        return lista;
     }
+    return lista;
+}
 
     public void deletar(int id) throws SQLException {
         String sql = "DELETE FROM pratos WHERE id = ?";

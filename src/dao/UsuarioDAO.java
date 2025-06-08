@@ -70,7 +70,7 @@ public class UsuarioDAO {
         }
     }
     
-    public Boolean autenticar(String login, String senha) throws SQLException {
+    public static Boolean autenticar(String login, String senha) throws SQLException {
         String sql = "SELECT * FROM usuarios WHERE nome = ?";
         Usuario usuarioEncontrado = null;
         try (Connection c = Conexao.conectar();
