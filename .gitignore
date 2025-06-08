@@ -1,6 +1,10 @@
 /build/
+<<<<<<< HEAD
+/nbproject/private/
+=======
 */build/
 *.class
 *.log
 /dist/
 nbproject/private/
+>>>>>>> 30ace556c8595d762965c6bb87ddde7aeb54982d
