@@ -11,6 +11,19 @@ public class Pedido {
     private BigDecimal total;
     private List<ItemPedido> itens;
 
+    public Pedido(int id, Usuario usuario, LocalDateTime dataPedido, BigDecimal total, List<ItemPedido> itens) {
+        this.id = id;
+        this.usuario = usuario;
+        this.dataPedido = dataPedido;
+        this.total = total;
+        this.itens = itens;
+    }
+
+    public Pedido() {
+    }
+    
+    
+
     // getters e setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

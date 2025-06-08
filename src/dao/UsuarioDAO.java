@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UsuarioDAO {
     public void inserir(Usuario u) throws SQLException {
-        String sql = "INSERT INTO usuarios (login, senha) VALUES (?, ?)";
+        String sql = "INSERT INTO usuarios (nome, senha) VALUES (?, ?)";
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, u.getLogin());
@@ -18,6 +18,24 @@ public class UsuarioDAO {
                 if (rs.next()) u.setId(rs.getInt(1));
             }
         }
+    }
+    public boolean existePorNome(String nome) throws SQLException {
+        // SQL para contar quantos usuários existem com um determinado nome.
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE nome = ?";
+        
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            
+            ps.setString(1, nome);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Se a contagem for > 0, o usuário existe (retorna true).
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
     }
 
     public void atualizar(Usuario u) throws SQLException {
@@ -48,6 +66,29 @@ public class UsuarioDAO {
             }
         }
     }
+    
+    public Boolean autenticar(String login, String senha) throws SQLException {
+        String sql = "SELECT * FROM usuarios WHERE nome = ?";
+        Usuario usuarioEncontrado = null;
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    usuarioEncontrado = new Usuario();
+                    usuarioEncontrado.setId(rs.getInt("id"));
+                    usuarioEncontrado.setLogin(rs.getString("nome"));
+                    usuarioEncontrado.setSenha(rs.getString("senha"));
+                }
+                
+                if (usuarioEncontrado != null && usuarioEncontrado.getSenha().equals(senha)) {
+                return true;
+            }
+        }
+        return false;
+    }
+        }
+
 
     public List<Usuario> buscarTodos() throws SQLException {
         String sql = "SELECT * FROM usuarios";

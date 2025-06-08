@@ -7,31 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PratoDAO {
-    public void inserir(Prato p) throws SQLException {
-        String sql = "INSERT INTO pratos (nome, descricao, preco) VALUES (?, ?, ?)";
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, p.getNome());
-            ps.setString(2, p.getDescricao());
-            ps.setBigDecimal(3, p.getPreco());
-            ps.executeUpdate();
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) p.setId(rs.getInt(1));
-            }
-        }
-    }
-
-    public void atualizar(Prato p) throws SQLException {
-        String sql = "UPDATE pratos SET nome = ?, descricao = ?, preco = ? WHERE id = ?";
-        try (Connection c = Conexao.conectar();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, p.getNome());
-            ps.setString(2, p.getDescricao());
-            ps.setBigDecimal(3, p.getPreco());
-            ps.setInt(4, p.getId());
-            ps.executeUpdate();
-        }
-    }
 
     public Prato buscarPorId(int id) throws SQLException {
         String sql = "SELECT * FROM pratos WHERE id = ?";

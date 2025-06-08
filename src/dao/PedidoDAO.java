@@ -10,16 +10,24 @@ import model.ItemPedido;
 public class PedidoDAO {
     private ItemPedidoDAO itemDao = new ItemPedidoDAO();
 
-    public void inserir(Pedido p) throws SQLException {
-        String sql = "INSERT INTO pedidos (usuario_id, data_pedido, total) VALUES (?, ?, ?)";
-        try (Connection c = Conexao.conectar(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    public Pedido inserir(Pedido p) throws SQLException {
+        String sql = "INSERT INTO pedidos (usuario_id, data_pedido, valor_total) VALUES (?, ?, ?)";
+
+        try (Connection c = Conexao.conectar();
+             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setInt(1, p.getUsuario().getId());
-            ps.setTimestamp(2, Timestamp.valueOf(p.getDataPedido()));
+            ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             ps.setBigDecimal(3, p.getTotal());
+
             ps.executeUpdate();
-            try (ResultSet rs = ps.getGeneratedKeys()) { if (rs.next()) p.setId(rs.getInt(1)); }
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    p.setId(rs.getInt(1));
+                }
+            }
+            return p;
         }
-        for (ItemPedido ip : p.getItens()) { ip.setPedido(p); itemDao.inserir(ip); }
     }
 
     public void atualizar(Pedido p) throws SQLException {

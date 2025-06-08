@@ -4,6 +4,14 @@ public class Usuario {
     private int id;
     private String login;
     private String senha;
+    
+    public Usuario(int id, String login, String senha) {
+        this.id = id;
+        this.login = login;
+        this.senha = senha;
+    }
+    public Usuario() {
+    }
 
     // getters e setters
     public int getId() { return id; }
@@ -13,3 +21,4 @@ public class Usuario {
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
 }
+

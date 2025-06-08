@@ -9,6 +9,32 @@ public class ItemPedido {
     private int quantidade;
     private BigDecimal subtotal;
 
+    public ItemPedido(int id, Pedido pedido, Prato prato, int quantidade, BigDecimal subtotal) {
+        this.id = id;
+        this.pedido = pedido;
+        this.prato = prato;
+        this.quantidade = quantidade;
+        this.subtotal = subtotal;
+    }
+
+    public ItemPedido() {
+    }
+
+    public ItemPedido(Prato prato, int quantidade) {
+        this.prato = prato;
+        this.quantidade = quantidade;
+        
+        if (prato != null && prato.getPreco() != null) {
+            // Multiplica o preço do prato (BigDecimal) pela quantidade (convertida para BigDecimal)
+            this.subtotal = prato.getPreco().multiply(new BigDecimal(quantidade));
+        } else {
+            // Garante que o subtotal seja zero se não houver preço, evitando null.
+            this.subtotal = BigDecimal.ZERO;
+        }
+    }
+    
+    
+
     // getters e setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
