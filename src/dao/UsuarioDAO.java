@@ -8,11 +8,12 @@ import java.util.List;
 
 public class UsuarioDAO {
     public void inserir(Usuario u) throws SQLException {
-        String sql = "INSERT INTO usuarios (login, senha) VALUES (?, ?)";
+        String sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, u.getLogin());
-            ps.setString(2, u.getSenha());
+            ps.setString(1, u.getNome());
+            ps.setString(2, u.getEmail());
+            ps.setString(3, u.getSenha());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) u.setId(rs.getInt(1));
@@ -21,12 +22,13 @@ public class UsuarioDAO {
     }
 
     public void atualizar(Usuario u) throws SQLException {
-        String sql = "UPDATE usuarios SET login = ?, senha = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?";
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, u.getLogin());
-            ps.setString(2, u.getSenha());
-            ps.setInt(3, u.getId());
+            ps.setString(1, u.getNome());
+            ps.setString(2, u.getEmail());
+            ps.setString(3, u.getSenha());
+            ps.setInt(4, u.getId());
             ps.executeUpdate();
         }
     }
@@ -40,7 +42,8 @@ public class UsuarioDAO {
                 if (rs.next()) {
                     Usuario u = new Usuario();
                     u.setId(rs.getInt("id"));
-                    u.setLogin(rs.getString("login"));
+                    u.setNome(rs.getString("nome"));
+                    u.setEmail(rs.getString("email"));
                     u.setSenha(rs.getString("senha"));
                     return u;
                 }
@@ -58,7 +61,8 @@ public class UsuarioDAO {
             while (rs.next()) {
                 Usuario u = new Usuario();
                 u.setId(rs.getInt("id"));
-                u.setLogin(rs.getString("login"));
+                u.setNome(rs.getString("nome"));
+                u.setEmail(rs.getString("email"));
                 u.setSenha(rs.getString("senha"));
                 lista.add(u);
             }
