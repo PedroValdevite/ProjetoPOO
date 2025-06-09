@@ -6,9 +6,10 @@ public class Usuario {
     private String email;
     private String senha;
     
-    public Usuario(int id, String login, String senha) {
+    public Usuario(int i,String login,String email, String senha) {
         this.id = id;
         this.nome = login;
+        this.email = email;
         this.senha = senha;
     }
     public Usuario() {

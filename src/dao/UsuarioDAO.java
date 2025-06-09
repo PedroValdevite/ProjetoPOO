@@ -12,8 +12,7 @@ public class UsuarioDAO {
         try (Connection c = Conexao.conectar();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, u.getNome());
-            ps.setString(2, u.getEmail());
-            ps.setString(3, u.getSenha());
+            ps.setString(2, u.getSenha());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) u.setId(rs.getInt(1));

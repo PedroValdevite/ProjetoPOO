@@ -6,6 +6,9 @@ package view;
 
 import controller.LoginController;
 import controller.UsuarioController;
+import javax.swing.JOptionPane;
+import model.Usuario;
+import java.sql.SQLException;
 
 /**
  *
@@ -137,17 +140,40 @@ public class TelaCadUsuario extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String login = jTextField2.getText();
+        String nome = jTextField2.getText();
+        String email = jTextField3.getText();
         String senha = jTextField3.getText();
-        String senha = jTextField3.getText();
-        String senha = jTextField4.getText();
+        String ConfirmSenha = jTextField4.getText();
+        Usuario novoUsuario = new Usuario(1,nome, email, senha);
+    
+    UsuarioController controller = new UsuarioController();
+    
+    // CORREÇÃO PRINCIPAL: Envolver a chamada em um bloco try-catch.
+    try {
+        // Tenta salvar o usuário. A chamada "perigosa" fica dentro do try.
+        boolean salvouComSucesso = controller.salvarUsuario(novoUsuario);
         
-        UsuarioController controller = new UsuarioController();
-        
-        if(controller.salvarUsuario(, senha)){
-        TelaMenuPrincipal menu = new TelaMenuPrincipal();
-        menu.setVisible(true);
+        if (salvouComSucesso) {
+            // Se o controller retornou 'true', exiba uma mensagem de sucesso.
+            JOptionPane.showMessageDialog(this, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Abre o menu principal e fecha a tela de cadastro
+            TelaMenuPrincipal menu = new TelaMenuPrincipal();
+            menu.setVisible(true);
+            this.dispose(); // Fecha a tela atual (de cadastro)
+
+        } else {
+            // Se o controller retornou 'false' (por uma validação interna, como usuário já existente)
+            // A mensagem de erro específica já deve ter sido impressa no console pelo método salvarUsuario.
+            // Aqui, mostramos uma mensagem genérica na tela.
+            JOptionPane.showMessageDialog(this, "Não foi possível cadastrar o usuário. Verifique os dados.", "Falha no Cadastro", JOptionPane.WARNING_MESSAGE);
         }
+
+    } catch (SQLException ex) {
+        // Se uma SQLException ocorrer (falha de conexão, erro de SQL), ela será capturada aqui.
+        JOptionPane.showMessageDialog(this, "Erro de comunicação com o banco de dados.", "Erro Crítico", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace(); // Imprime o erro técnico no console para o desenvolvedor.
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
